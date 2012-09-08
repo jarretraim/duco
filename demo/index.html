@@ -73,7 +73,7 @@
                   <img src="img/external.png" class="toolbar_icon" /> External Interactor
                 </a>
               </li>
-              <li data-shape="graphiti.shape.basic.Diamond" class="palette_node_element graphiti_droppable">
+              <li data-shape="g.Shapes.Database" class="palette_node_element graphiti_droppable">
                 <a href="">
                   <img src="img/db.png" class="toolbar_icon" /> Data Store
                 </a>
@@ -106,15 +106,75 @@
     </div> <!-- /container -->
 
 <!-- Dependencies -->
-<script src="../../lib/underscore-1.3.3.min.js"></script>
-<script src="../../lib/jquery-1.8.0.min.js"></script>
-<script src="../../lib/jquery-ui-1.8.23.custom.min.js"></script>
-<script src="../../lib/libs/bootstrap/bootstrap.min.js"></script>
+<script src="../lib/jquery-1.8.1.min.js"></script>
+<script src="../lib/underscore-1.3.3.min.js"></script>
+<script src="../lib/jquery-ui-1.8.23.custom.min.js"></script>
+<script src="../lib/Class.js"></script>
+<script src="../lib/raphael-2.1.0.min.js"></script>
 
 <!-- Duco lib -->
+<script src="../graphiti/src/graphiti.js"></script>
+<script src="../graphiti/src/Canvas.js"></script>
+<script src="../graphiti/src/Figure.js"></script>
 
+<script src="../graphiti/src/util/Color.js"></script>
+<script src="../graphiti/src/util/UUID.js"></script>
+<script src="../graphiti/src/util/ArrayList.js"></script>
+
+<script src="../graphiti/src/geo/Point.js"></script>
+<script src="../graphiti/src/geo/Rectangle.js"></script>
+
+<script src="../graphiti/src/shape/node/Node.js"></script>
+<script src="../graphiti/src/VectorFigure.js"></script>  <!-- depends: shape.node.Node -->
+
+<script src="../graphiti/src/shape/basic/Line.js"></script>
+<script src="../graphiti/src/shape/basic/Oval.js"></script>
+<script src="../graphiti/src/shape/basic/Circle.js"></script>
+<script src="../graphiti/src/shape/basic/Rectangle.js"></script>
+<script src="../graphiti/src/shape/basic/PolyLine.js"></script>
+
+<script src="../graphiti/src/Port.js"></script> <!-- depends: util.Color, shape.basic.Circle -->
+<script src="../graphiti/src/InputPort.js"></script>
+<script src="../graphiti/src/OutputPort.js"></script>
+<script src="../graphiti/src/HybridPort.js"></script>
+<script src="../graphiti/src/ConnectionAnchor.js"></script>
+
+<script src="../graphiti/src/SetFigure.js"></script> <!-- depends: shape.basic.Rectangle-->
+<script src="../graphiti/src/ResizeHandle.js"></script> <!-- depends on shape.basic.Rectangle -->
+
+<script src="../graphiti/src/shape/basic/Label.js"></script> <!-- depends: SetFigure -->
+
+<script src="../graphiti/src/LineResizeHandle.js"></script>
+<script src="../graphiti/src/LineStartResizeHandle.js"></script>
+<script src="../graphiti/src/LineEndResizeHandle.js"></script>
+
+<script src="../graphiti/src/layout/locator/Locator.js"></script>
+<script src="../graphiti/src/layout/locator/ConnectionLocator.js"></script>
+<script src="../graphiti/src/layout/connection/ConnectionRouter.js"></script>
+<script src="../graphiti/src/layout/connection/ManhattanConnectionRouter.js"></script>
+<script src="../graphiti/src/layout/connection/ManhattanBridgedConnectionRouter.js"></script>
+<script src="../graphiti/src/Connection.js"></script> <!-- depends: layout.connection -->
+
+<script src="../graphiti/src/command/CommandType.js"></script>
+<script src="../graphiti/src/command/Command.js"></script>
+<script src="../graphiti/src/command/CommandStack.js"></script>
+<script src="../graphiti/src/command/CommandStackEvent.js"></script>
+<script src="../graphiti/src/command/CommandStackEventListener.js"></script>
+<script src="../graphiti/src/command/CommandMove.js"></script>
+<script src="../graphiti/src/command/CommandResize.js"></script>
+<script src="../graphiti/src/command/CommandConnect.js"></script>
+<script src="../graphiti/src/command/CommandReconnect.js"></script>
+<script src="../graphiti/src/command/CommandDelete.js"></script>
+<script src="../graphiti/src/command/CommandAdd.js"></script>
+
+
+<script src="../src/locators.js"></script>
+<script src="../graphiti/src/layout/locator/CenterLocator.js"></script>
+
+<script src="../graphiti/src/ui/LabelEditor.js"></script>
 
 <!-- Custom js -->
+<script src="js/bootstrap.min.js"></script>
 <script src="js/script.js"></script>
 
 

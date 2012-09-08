@@ -88,15 +88,11 @@ g.Shapes.Process = graphiti.shape.basic.Circle.extend({
 
   init: function(width, height) {
     this._super();
-
-    if (typeof radius === "number") {
-      this.setDimension(radius, radius);
-    } else {
-      this.setDimension(100, 100);
-    }
-
+    this.setDimension(100, 100);
+    
     this.setColor("#339BB9");
     this.setBackgroundColor("#DDF4FB");
+    this.setCssClass("process");
 
     // Label
     this.label = new graphiti.shape.basic.Label("New Process");
@@ -147,6 +143,7 @@ g.Shapes.Interactor = graphiti.shape.basic.Rectangle.extend({
 
 });
 
+
 $().ready(function() {
   document.ontouchmove = function(e) {
     e.preventDefault();
@@ -177,5 +174,16 @@ $().ready(function() {
   $('#cmd_snap_to_grid').click(function(ev) {
     app.toggleSnapToGrid();
   });
+
+  var canvas = $('#canvas');
+  canvas.on('mouseenter', '.process', function(ev) {
+      $('#canvas .port').fadeIn(500);
+  });  
+
+  canvas.on('mouseleave', '.process', function(ev) {
+    $('#canvas .port').fadeOut(250);
+  });
+
+
 
 });
