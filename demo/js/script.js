@@ -95,7 +95,7 @@ g.Shapes.Process = graphiti.shape.basic.Circle.extend({
     this.setCssClass("process");
 
     // Label
-    this.label = new graphiti.shape.basic.Label("New Process");
+    this.label = new graphiti.shape.basic.WrappingLabel("New Process");
     this.label.setFontColor("#339BB9");
     this.label.setStroke(0);
     this.addFigure(this.label, new graphiti.layout.locator.CenterLocator(this));
@@ -119,28 +119,28 @@ g.Shapes.Process = graphiti.shape.basic.Circle.extend({
 g.Shapes.Interactor = graphiti.shape.basic.Rectangle.extend({
   NAME: "g.Shapes.Rectangle",
 
-  init: function(width, height) {
+  init: function(width, height) {   
     this._super();
 
     this.setDimension(100, 75);
 
     this.setColor("#339BB9");
     this.setBackgroundColor("#DDF4FB");
+    this.setCssClass("interactor");
 
     // Label
-    this.label = new graphiti.shape.basic.Label("New External \nInteractor");
+    //this.label = new graphiti.shape.basic.Label("New External Interactor");
+    this.label = new graphiti.shape.basic.WrappingLabel("New External Interactor");
     this.label.setFontColor("#339BB9");
     this.label.setStroke(0);
-    this.addFigure(this.label, new graphiti.layout.locator.CenterLocator(this));
+    this.addFigure(this.label, new graphiti.layout.locator.CenterLocator(this));    
+    this.label.installEditor(new graphiti.ui.LabelEditor(this.label));
 
     this.createPort("hybrid", new graphiti.layout.locator.TopLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.RightLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.LeftLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.BottomLocator(this));
-
-    this.label.installEditor(new graphiti.ui.LabelEditor(this.label));
   }
-
 });
 
 
@@ -174,16 +174,4 @@ $().ready(function() {
   $('#cmd_snap_to_grid').click(function(ev) {
     app.toggleSnapToGrid();
   });
-
-  var canvas = $('#canvas');
-  canvas.on('mouseenter', '.process', function(ev) {
-      $('#canvas .port').fadeIn(500);
-  });  
-
-  canvas.on('mouseleave', '.process', function(ev) {
-    $('#canvas .port').fadeOut(250);
-  });
-
-
-
 });
