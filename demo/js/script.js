@@ -116,8 +116,49 @@ g.Shapes.Process = graphiti.shape.basic.Circle.extend({
   }
 });
 
+g.Shapes.ComplexProcess = graphiti.shape.basic.Circle.extend({
+  NAME: "g.Shapes.ComplexProcess",
+
+  init: function(width, height) { 
+    this._super();
+    this.setDimension(100, 100);
+    
+    this.setColor("#339BB9");
+    this.setBackgroundColor("#DDF4FB");
+    this.setCssClass("complex_process");    
+
+    // Other circle
+    this.inner = new graphiti.shape.basic.Circle();
+    this.inner.setDimension(90,90);
+    this.inner.setColor("#339BB9");
+    this.inner.setBackgroundColor("#DDF4FB");
+    this.addFigure(this.inner, new graphiti.layout.locator.CenterLocator(this));
+
+    // Label
+    this.label = new graphiti.shape.basic.WrappingLabel("New Process");
+    this.label.setFontColor("#339BB9");
+    this.label.setStroke(0);
+    this.addFigure(this.label, new graphiti.layout.locator.CenterLocator(this));
+
+    this.createPort("hybrid", new graphiti.layout.locator.TopLocator(this));
+    this.createPort("hybrid", new graphiti.layout.locator.RightLocator(this));
+    this.createPort("hybrid", new graphiti.layout.locator.LeftLocator(this));
+    this.createPort("hybrid", new graphiti.layout.locator.BottomLocator(this));
+
+    this.label.installEditor(new graphiti.ui.LabelEditor(this.label));
+  },
+
+  onDoubleClick: function() {
+    var t = prompt("Name: ", this.label.getText());
+    if (t) {
+      this.label.setText(t);
+    }
+  }
+
+});
+
 g.Shapes.Interactor = graphiti.shape.basic.Rectangle.extend({
-  NAME: "g.Shapes.Rectangle",
+  NAME: "g.Shapes.Interactor",
 
   init: function(width, height) {   
     this._super();
