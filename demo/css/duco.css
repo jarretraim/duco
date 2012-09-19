@@ -25,3 +25,8 @@
 .connector {
   stroke: #4cbf2f;
 }
+
+#json {
+  height: 350px;
+  width: 95%;
+}

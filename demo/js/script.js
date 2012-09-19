@@ -31,8 +31,12 @@ g.Application = Class.extend({
 
   toggleSnapToGrid: function() {
     this.view.setSnapToGrid(!this.view.getSnapToGrid());
-  }
+  },
 
+  getJson: function() {
+    var writer = new graphiti.io.json.Writer();
+    return JSON.stringify(writer.marshal(this.view), null, 2);
+  }
 });
 
 g.View = graphiti.Canvas.extend({
@@ -157,7 +161,7 @@ g.Shapes.ComplexProcess = graphiti.shape.basic.Circle.extend({
 });
 
 g.Shapes.DataStore = graphiti.SetFigure.extend({
-  NAME : "graphiti.shape.icon.Icon",
+  NAME : "g.Shapes.DataStore",
 
   init: function(width, height) {    
     this._super();
@@ -223,13 +227,14 @@ g.Shapes.Interactor = graphiti.shape.basic.Rectangle.extend({
     this.label = new graphiti.shape.basic.WrappingLabel("New External Interactor");
     this.label.setFontColor("#339BB9");
     this.label.setStroke(0);
-    this.addFigure(this.label, new graphiti.layout.locator.CenterLocator(this));    
-    this.label.installEditor(new graphiti.ui.LabelEditor(this.label));
+    this.addFigure(this.label, new graphiti.layout.locator.CenterLocator(this));        
 
     this.createPort("hybrid", new graphiti.layout.locator.TopLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.RightLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.LeftLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.BottomLocator(this));
+
+    this.label.installEditor(new graphiti.ui.LabelEditor(this.label));
   }
 });
 
@@ -263,5 +268,10 @@ $().ready(function() {
 
   $('#cmd_snap_to_grid').click(function(ev) {
     app.toggleSnapToGrid();
+  });
+
+  $('#cmd_download_json').click(function(ev) {
+    $('#json').val(app.getJson());
+    $('#json_modal').modal('show');
   });
 });
