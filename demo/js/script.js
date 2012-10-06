@@ -36,6 +36,10 @@ g.Application = Class.extend({
   getJson: function() {
     var writer = new graphiti.io.json.Writer();
     return JSON.stringify(writer.marshal(this.view), null, 2);
+  },
+
+  showProperties: function(event, modal) {
+    console.log(json);
   }
 });
 
@@ -77,11 +81,11 @@ g.View = graphiti.Canvas.extend({
    * @private
    **/
   onDrop: function(droppedDomNode, x, y) {
-    console.log("onDrop: x(" + x + "), y(" + y + ")");
     var type = $(droppedDomNode).data("shape");
     var figure = eval("new " + type + "();");
     // create a command for the undo/redo support
-    var command = new graphiti.command.CommandAdd(this, figure, x, y);
+    var center = figure.getCenter();
+    var command = new graphiti.command.CommandAdd(this, figure, x - center.getX(), y - center.getY());
     this.getCommandStack().execute(command);
   }
 });
@@ -108,15 +112,10 @@ g.Shapes.Process = graphiti.shape.basic.Circle.extend({
     this.createPort("hybrid", new graphiti.layout.locator.RightLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.LeftLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.BottomLocator(this));
-
-    this.label.installEditor(new graphiti.ui.LabelEditor(this.label));
   },
 
   onDoubleClick: function() {
-    var t = prompt("Name: ", this.label.getText());
-    if (t) {
-      this.label.setText(t);
-    }
+    $('body').trigger('g.showProperties', this.getPersistentAttributes());
   }
 });
 
@@ -148,8 +147,6 @@ g.Shapes.ComplexProcess = graphiti.shape.basic.Circle.extend({
     this.createPort("hybrid", new graphiti.layout.locator.RightLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.LeftLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.BottomLocator(this));
-
-    this.label.installEditor(new graphiti.ui.LabelEditor(this.label));
   },
 
   onDoubleClick: function() {
@@ -172,7 +169,7 @@ g.Shapes.DataStore = graphiti.SetFigure.extend({
     this.setCssClass("data_store");
 
     // Label
-    this.label = new graphiti.shape.basic.WrappingLabel("New Process");
+    this.label = new graphiti.shape.basic.WrappingLabel("New Data Store");
     this.label.setFontColor("#339BB9");
     this.label.setStroke(0);
     this.addFigure(this.label, new graphiti.layout.locator.CenterLocator(this));
@@ -181,8 +178,13 @@ g.Shapes.DataStore = graphiti.SetFigure.extend({
     this.createPort("hybrid", new graphiti.layout.locator.RightLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.LeftLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.BottomLocator(this));
+  },
 
-    this.label.installEditor(new graphiti.ui.LabelEditor(this.label));
+  onDoubleClick: function() {
+    var t = prompt("Name: ", this.label.getText());
+    if (t) {
+      this.label.setText(t);
+    }
   },
 
   repaint : function(attributes)
@@ -233,9 +235,19 @@ g.Shapes.Interactor = graphiti.shape.basic.Rectangle.extend({
     this.createPort("hybrid", new graphiti.layout.locator.RightLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.LeftLocator(this));
     this.createPort("hybrid", new graphiti.layout.locator.BottomLocator(this));
+  },
 
-    this.label.installEditor(new graphiti.ui.LabelEditor(this.label));
-  }
+  onDoubleClick: function() {
+    var t = prompt("Name: ", this.label.getText());
+    if (t) {
+      this.label.setText(t);
+    }
+  },
+
+  isStrechable:function()
+  {
+    return false;
+  },
 });
 
 
@@ -273,5 +285,11 @@ $().ready(function() {
   $('#cmd_download_json').click(function(ev) {
     $('#json').val(app.getJson());
     $('#json_modal').modal('show');
+  });
+
+  $('body').on("g.showProperties", function(event) {
+    console.log("show properties event fired");
+    var modal = $('#properties_modal');
+    app.showProperties(event, modal);    
   });
 });
