@@ -10,7 +10,8 @@ g.Application = Class.extend({
    * @param {String} canvasId the id of the DOM element to use as paint container
    */
   init: function() {
-    this.view = new g.View("canvas");
+    this.properties = new g.Properties(this);
+    this.view = new g.View("canvas", this.properties);  
   },
 
   undo: function() {
@@ -38,19 +39,23 @@ g.Application = Class.extend({
     return JSON.stringify(writer.marshal(this.view), null, 2);
   },
 
-  showProperties: function(event, modal) {
-    console.log(json);
+  showProperties: function(eventData, modal) {
+    this.properties.showPropertyEditModal(modal, eventData);
+  },
+
+  reportError: function(data, description) {
+    console.log('ERROR: ' + description + ' -> ' + JSON.stringify(data));
   }
 });
 
 g.View = graphiti.Canvas.extend({
 
-  init: function(id) {
+  init: function(id, properties) {
     this._super(id);
     this.setScrollArea("#" + id);
     this.currentDropConnection = null;
-
     this.setSnapToGrid(true);
+    this.properties = properties;
   },
 
   /**
@@ -83,6 +88,7 @@ g.View = graphiti.Canvas.extend({
   onDrop: function(droppedDomNode, x, y) {
     var type = $(droppedDomNode).data("shape");
     var figure = eval("new " + type + "();");
+    figure.setProperties(this.properties);
     // create a command for the undo/redo support
     var center = figure.getCenter();
     var command = new graphiti.command.CommandAdd(this, figure, x - center.getX(), y - center.getY());
@@ -116,6 +122,16 @@ g.Shapes.Process = graphiti.shape.basic.Circle.extend({
 
   onDoubleClick: function() {
     $('body').trigger('g.showProperties', this.getPersistentAttributes());
+  },
+
+  setProperties: function(defaultProperties) {
+    this.properties = defaultProperties.byShapeName("process");
+  },
+
+  getPersistentAttributes : function() {
+    var s = this._super();
+    s["properties"] = this.properties;
+    return s;
   }
 });
 
@@ -250,6 +266,68 @@ g.Shapes.Interactor = graphiti.shape.basic.Rectangle.extend({
   },
 });
 
+g.Properties = Class.extend({
+
+  init: function(app) {
+    this.app = app;
+
+    $.ajax({
+      type: 'GET',
+      url: '/properties.json',
+      dataType: 'json',
+      context: this,
+      success: function(data) { this.properties = data; },
+      error: app.reportError,
+      data: {},
+      async: false
+    });
+
+    $.ajax({
+      type: 'GET',
+      url: '/shapes.json',
+      dataType: 'json',
+      context: this,
+      success: function(data) { this.shapes = data; },
+      error: app.reportError,
+      data: {},
+      async: false
+    });
+  },
+
+  byId: function(id) {
+    $.each(this.properties, function(index, property) {
+      if (property.id == id) {
+        return property;
+      }
+    });
+  },
+
+  byShapeName: function(shapeName) {
+    var shape = _.find(this.shapes, function(shape) {
+      if (shape.slug == shapeName) {
+        return shape;
+      }
+    });
+
+    var property = _.find(this.properties, function(property) {
+      if (property.shape_id == shape.id) {
+        return property;
+      }
+    });
+
+    return property;
+  },
+
+  showPropertyEditModal: function(eventData, modal) {
+    var body = modal.find("$modal-body");
+    body.empty();
+
+    // NOT DONE
+
+  }
+});
+
+
 
 $().ready(function() {
   document.ontouchmove = function(e) {
@@ -287,7 +365,7 @@ $().ready(function() {
     $('#json_modal').modal('show');
   });
 
-  $('body').on("g.showProperties", function(event) {
+  $('body').on("g.showProperties", function(event, objectData) {
     console.log("show properties event fired");
     var modal = $('#properties_modal');
     app.showProperties(event, modal);    
