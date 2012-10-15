@@ -123,14 +123,62 @@
       <h3>Shape Properties</h3>
     </div>
     <div class="modal-body">
-      
+      <form id="properties_form" class="form-horizontal"> 
+      </form>
     </div>
     <div class="modal-footer">
       <a href="#" data-dismiss="modal" class="btn">Close</a>
-      <a href="#" data-dismiss="modal" class="btn btn-primary">Save</a>
+      <a href="#" data-dismiss="modal" id="properties_submit_button" class="btn btn-primary">Save</a>
     </div>
   </div>
 
+
+<!-- Templates -->
+<script id="text-field" type="text/html">
+  <div class="control-group">
+    <label class="control-label" for="{{id}}">{{name}}</label>
+    <div class="controls">
+      <input id="{{id}}" class="input" value="{{value}}" />
+    </div>
+  </div>
+</script>
+
+<script id="bool-field" type="text/html">
+  <div class="control-group">
+    <label class="control-label" for="{{id}}">{{name}}</label>
+    <div class="controls">
+      {{#value}}
+        <label class="checkbox">
+          <input id="{{id}}" type="checkbox" checked="{{value}}" value="{{value}}" />          
+          {{#description}}
+            <p class="muted">{{description}}</p>
+          {{/description}}
+        </label>        
+      {{/value}}
+      {{^value}}
+        <label class="checkbox">
+          <input id="{{id}}" type="checkbox" value="{{value}}" />
+          {{#description}}
+            <span class="muted">{{description}}</span>
+          {{/description}}
+        </label>
+      {{/value}}
+    </div>
+  </div>
+</script>
+
+<script id="list-field" type="text/html">
+  <div class="control-group">
+    <label class="control-label" for="{{id}}">{{name}}</label>
+    <div class="controls">
+      <select id="{{id}}">
+        {{#valid}}
+          <option>{{.}}</option>
+        {{/valid}}
+      </select>
+    </div>
+  </div>
+</script>
 
 
 <!-- Dependencies -->
@@ -139,6 +187,7 @@
 <script src="../lib/jquery-ui-1.8.23.custom.min.js"></script>
 <script src="../lib/Class.js"></script>
 <script src="../lib/raphael-2.1.0.min.js"></script>
+<script src="../lib/mustache.js"></script>
 
 <!-- Duco lib -->
 <script src="../graphiti/src/graphiti.js"></script>

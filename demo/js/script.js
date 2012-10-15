@@ -39,8 +39,8 @@ g.Application = Class.extend({
     return JSON.stringify(writer.marshal(this.view), null, 2);
   },
 
-  showProperties: function(eventData, modal) {
-    this.properties.showPropertyEditModal(modal, eventData);
+  showProperties: function(shapeData, modal) {
+    this.properties.showPropertyEditModal(shapeData, modal);
   },
 
   reportError: function(data, description) {
@@ -125,7 +125,17 @@ g.Shapes.Process = graphiti.shape.basic.Circle.extend({
   },
 
   setProperties: function(defaultProperties) {
-    this.properties = defaultProperties.byShapeName("process");
+    var propertyTemplates = defaultProperties.byShapeName("process");
+    var properties = [];
+
+    _.each(propertyTemplates, function(property) {
+      var prop = {};
+      prop['id'] = property.id;
+      prop['value'] = property.default_value;
+      properties.push(prop);
+    });
+
+    this.properties = properties;
   },
 
   getPersistentAttributes : function() {
@@ -295,11 +305,13 @@ g.Properties = Class.extend({
   },
 
   byId: function(id) {
-    $.each(this.properties, function(index, property) {
-      if (property.id == id) {
-        return property;
+    var property = _.find(this.properties, function(p) {
+      if (p.id == id) {
+        return p;
       }
     });
+
+    return property;
   },
 
   byShapeName: function(shapeName) {
@@ -309,21 +321,51 @@ g.Properties = Class.extend({
       }
     });
 
-    var property = _.find(this.properties, function(property) {
+    var properties = _.filter(this.properties, function(property) {
       if (property.shape_id == shape.id) {
         return property;
       }
     });
 
-    return property;
+    return properties;
   },
 
-  showPropertyEditModal: function(eventData, modal) {
-    var body = modal.find("$modal-body");
+  showPropertyEditModal: function(shapeData, modal) {
+    var body = modal.find("#properties_form");
     body.empty();
 
-    // NOT DONE
+    body.append('<input name="shapeId" type="hidden" value="' + shapeData.id + '" />');
 
+    _.each(shapeData.properties, function(property) {
+      var propertyTemplate = this.byId(property.id);
+      var markup = this.renderTemplate(propertyTemplate, property);
+      body.append(markup);
+    }, this);
+
+    modal.modal('show');
+  },
+
+  renderTemplate: function(propertyTemplate, property) {
+    var template = null;
+    switch (propertyTemplate.property_type.name)
+    {
+      case 'Text':
+        template = $('#text-field').html();
+        break;
+      case 'Boolean':
+        template = $('#bool-field').html();
+        break;
+      case 'List':
+        template = $('#list-field').html();
+        break;
+      default:
+        console.log('Unknown property template, using text.')
+        template = $('#text-field').html();
+    }
+
+    var merged = $.extend(propertyTemplate, { "value": property.value } );
+
+    return Mustache.to_html(template, merged);
   }
 });
 
@@ -333,6 +375,8 @@ $().ready(function() {
   document.ontouchmove = function(e) {
     e.preventDefault();
   };
+
+  $('.tooltip').tooltip();
 
   var app = new g.Application();
 
@@ -366,8 +410,16 @@ $().ready(function() {
   });
 
   $('body').on("g.showProperties", function(event, objectData) {
-    console.log("show properties event fired");
     var modal = $('#properties_modal');
-    app.showProperties(event, modal);    
+    app.showProperties(objectData, modal);    
+  });
+
+  $('#properties_submit_button').click(function() {
+    $('#properties_form').submit();
+  });
+
+  $('#properties_form').submit(function() {
+    app.saveProperties(shapeId, properties);
+    return false;
   });
 });
