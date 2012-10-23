@@ -138,7 +138,7 @@
   <div class="control-group">
     <label class="control-label" for="{{id}}">{{name}}</label>
     <div class="controls">
-      <input id="{{id}}" class="input" value="{{value}}" />
+      <input id="{{id}}" name="{{name}}" class="input" value="{{value}}" />
     </div>
   </div>
 </script>
@@ -149,7 +149,7 @@
     <div class="controls">
       {{#value}}
         <label class="checkbox">
-          <input id="{{id}}" type="checkbox" checked="{{value}}" value="{{value}}" />          
+          <input id="{{id}}" name="{{name}}" type="checkbox" checked="{{value}}" value="{{value}}" />          
           {{#description}}
             <p class="muted">{{description}}</p>
           {{/description}}
@@ -157,7 +157,7 @@
       {{/value}}
       {{^value}}
         <label class="checkbox">
-          <input id="{{id}}" type="checkbox" value="{{value}}" />
+          <input id="{{id}}" name="{{name}}" type="checkbox" value="{{value}}" />
           {{#description}}
             <span class="muted">{{description}}</span>
           {{/description}}

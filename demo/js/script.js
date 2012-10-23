@@ -43,6 +43,11 @@ g.Application = Class.extend({
     this.properties.showPropertyEditModal(shapeData, modal);
   },
 
+  saveProperties: function(shapeId, properties) {    
+    var shape = this.view.getShape(shapeId);
+    shape.properties = properties;
+  },
+
   reportError: function(data, description) {
     console.log('ERROR: ' + description + ' -> ' + JSON.stringify(data));
   }
@@ -56,6 +61,7 @@ g.View = graphiti.Canvas.extend({
     this.currentDropConnection = null;
     this.setSnapToGrid(true);
     this.properties = properties;
+    this.shapes = [];
   },
 
   /**
@@ -73,6 +79,16 @@ g.View = graphiti.Canvas.extend({
    **/
   onDrag: function(droppedDomNode, x, y) {},
 
+  getShape: function(shapeId) {
+    var shape = _.find(this.shapes, function(shape) {
+      if (shape.id == shapeId) {
+        return shape;
+      }
+    });
+
+    return shape;
+  },
+
   /**
    * @method
    * Called if the user drop the droppedDomNode onto the canvas.<br>
@@ -89,6 +105,8 @@ g.View = graphiti.Canvas.extend({
     var type = $(droppedDomNode).data("shape");
     var figure = eval("new " + type + "();");
     figure.setProperties(this.properties);
+    this.shapes.push(figure);
+
     // create a command for the undo/redo support
     var center = figure.getCenter();
     var command = new graphiti.command.CommandAdd(this, figure, x - center.getX(), y - center.getY());
@@ -419,6 +437,28 @@ $().ready(function() {
   });
 
   $('#properties_form').submit(function() {
+    var shapeId = this.shapeId.value;
+    var inputs = $(this).find('input');
+    var properties = [];
+    
+    _.each(inputs, function(input) {
+      if (input.name == "shapeId") {
+        return;
+      }
+
+      var value = input.value;
+      if (input.type == "checkbox") {
+        value = $(input).prop('checked');
+      }
+
+      var x = {
+        "id": input.id,
+        "value": value
+      };
+
+      properties.push(x);
+    });
+
     app.saveProperties(shapeId, properties);
     return false;
   });
