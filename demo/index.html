@@ -59,22 +59,22 @@
           <ul class="nav nav-list">
             <li class="nav-header">Toolbar</li>
             <li data-shape="g.Shapes.Process" class="palette_node_element graphiti_droppable" >
-              <a href="">
+              <a href="#">
                 <img src="img/process.png" class="toolbar_icon" /> Process
               </a>
             </li>
             <li data-shape="g.Shapes.ComplexProcess" class="palette_node_element graphiti_droppable">
-              <a href="">
+              <a href="#">
                 <img src="img/complex.png" class="toolbar_icon" /> Complex Process
               </a>
             </li>
             <li data-shape="g.Shapes.Interactor" class="palette_node_element graphiti_droppable">
-              <a href="">
+              <a href="#">
                 <img src="img/external.png" class="toolbar_icon" /> External Interactor
               </a>
             </li>
             <li data-shape="g.Shapes.DataStore" class="palette_node_element graphiti_droppable">
-              <a href="">
+              <a href="#">
                 <img src="img/db.png" class="toolbar_icon" /> Data Store
               </a>
             </li>
@@ -179,6 +179,17 @@
     </div>
   </div>
 </script>
+
+<script id="integer-field" type="text/html">
+  <div class="control-group">
+    <label class="control-label" for="{{id}}">{{name}}</label>
+    <div class="controls">
+      <input id="{{id}}" name="{{name}}" class="input" type="number" value="{{value}}" />
+    </div>
+  </div>
+</script>
+
+
 
 
 <!-- Dependencies -->
