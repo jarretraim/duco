@@ -2,7 +2,7 @@
 var g = {};
 
 g.Application = Class.extend({
-  NAME: "graphiti.Application",
+  NAME: "draw2d.Application",
 
   /**
    * @constructor
@@ -35,7 +35,7 @@ g.Application = Class.extend({
   },
 
   getJson: function() {
-    var writer = new graphiti.io.json.Writer();
+    var writer = new draw2d.io.json.Writer();
     return JSON.stringify(writer.marshal(this.view), null, 2);
   },
 
@@ -53,13 +53,13 @@ g.Application = Class.extend({
   }
 });
 
-g.View = graphiti.Canvas.extend({
+g.View = draw2d.Canvas.extend({
 
   init: function(id, properties) {
     this._super(id);
     this.setScrollArea("#" + id);
     this.currentDropConnection = null;
-    this.setSnapToGrid(true);
+    //this.setSnapToGrid(true);
     this.properties = properties;
     this.shapes = [];
   },
@@ -68,7 +68,7 @@ g.View = graphiti.Canvas.extend({
    * @method
    * Called if the DragDrop object is moving around.<br>
    * <br>
-   * Graphiti use the jQuery draggable/droppable lib. Please inspect
+   * draw2d use the jQuery draggable/droppable lib. Please inspect
    * http://jqueryui.com/demos/droppable/ for further information.
    *
    * @param {HTMLElement} droppedDomNode The dragged DOM element.
@@ -93,7 +93,7 @@ g.View = graphiti.Canvas.extend({
    * @method
    * Called if the user drop the droppedDomNode onto the canvas.<br>
    * <br>
-   * Graphiti use the jQuery draggable/droppable lib. Please inspect
+   * draw2d use the jQuery draggable/droppable lib. Please inspect
    * http://jqueryui.com/demos/droppable/ for further information.
    *
    * @param {HTMLElement} droppedDomNode The dropped DOM element.
@@ -109,13 +109,13 @@ g.View = graphiti.Canvas.extend({
 
     // create a command for the undo/redo support
     var center = figure.getCenter();
-    var command = new graphiti.command.CommandAdd(this, figure, x - center.getX(), y - center.getY());
+    var command = new draw2d.command.CommandAdd(this, figure, x - center.getX(), y - center.getY());
     this.getCommandStack().execute(command);
   }
 });
 
 g.Shapes = {};
-g.Shapes.Process = graphiti.shape.basic.Circle.extend({
+g.Shapes.Process = draw2d.shape.basic.Circle.extend({
   NAME: "g.Shapes.Process",
 
   init: function(width, height) {
@@ -127,15 +127,15 @@ g.Shapes.Process = graphiti.shape.basic.Circle.extend({
     this.setCssClass("process");
 
     // Label
-    this.label = new graphiti.shape.basic.WrappingLabel("New Process");
+    this.label = new draw2d.shape.basic.WrappingLabel("New Process");
     this.label.setFontColor("#339BB9");
     this.label.setStroke(0);
-    this.addFigure(this.label, new graphiti.layout.locator.CenterLocator(this));
+    this.addFigure(this.label, new draw2d.layout.locator.CenterLocator(this));
 
-    this.createPort("hybrid", new graphiti.layout.locator.TopLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.RightLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.LeftLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.BottomLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.TopLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.RightLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.LeftLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.BottomLocator(this));
   },
 
   onDoubleClick: function() {
@@ -163,7 +163,7 @@ g.Shapes.Process = graphiti.shape.basic.Circle.extend({
   }
 });
 
-g.Shapes.ComplexProcess = graphiti.shape.basic.Circle.extend({
+g.Shapes.ComplexProcess = draw2d.shape.basic.Circle.extend({
   NAME: "g.Shapes.ComplexProcess",
 
   init: function(width, height) { 
@@ -175,22 +175,22 @@ g.Shapes.ComplexProcess = graphiti.shape.basic.Circle.extend({
     this.setCssClass("complex_process");    
 
     // Other circle
-    this.inner = new graphiti.shape.basic.Circle();
+    this.inner = new draw2d.shape.basic.Circle();
     this.inner.setDimension(90,90);
     this.inner.setColor("#339BB9");
     this.inner.setBackgroundColor("#DDF4FB");
-    this.addFigure(this.inner, new graphiti.layout.locator.CenterLocator(this));
+    this.addFigure(this.inner, new draw2d.layout.locator.CenterLocator(this));
 
     // Label
-    this.label = new graphiti.shape.basic.WrappingLabel("New Process");
+    this.label = new draw2d.shape.basic.WrappingLabel("New Process");
     this.label.setFontColor("#339BB9");
     this.label.setStroke(0);
-    this.addFigure(this.label, new graphiti.layout.locator.CenterLocator(this));
+    this.addFigure(this.label, new draw2d.layout.locator.CenterLocator(this));
 
-    this.createPort("hybrid", new graphiti.layout.locator.TopLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.RightLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.LeftLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.BottomLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.TopLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.RightLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.LeftLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.BottomLocator(this));
   },
 
   onDoubleClick: function() {
@@ -218,7 +218,7 @@ g.Shapes.ComplexProcess = graphiti.shape.basic.Circle.extend({
   }
 });
 
-g.Shapes.DataStore = graphiti.SetFigure.extend({
+g.Shapes.DataStore = draw2d.SetFigure.extend({
   NAME : "g.Shapes.DataStore",
 
   init: function(width, height) {    
@@ -230,15 +230,15 @@ g.Shapes.DataStore = graphiti.SetFigure.extend({
     this.setCssClass("data_store");
 
     // Label
-    this.label = new graphiti.shape.basic.WrappingLabel("New Data Store");
+    this.label = new draw2d.shape.basic.WrappingLabel("New Data Store");
     this.label.setFontColor("#339BB9");
     this.label.setStroke(0);
-    this.addFigure(this.label, new graphiti.layout.locator.CenterLocator(this));
+    this.addFigure(this.label, new draw2d.layout.locator.CenterLocator(this));
 
-    this.createPort("hybrid", new graphiti.layout.locator.TopLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.RightLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.LeftLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.BottomLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.TopLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.RightLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.LeftLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.BottomLocator(this));
   },
 
   onDoubleClick: function() {
@@ -290,7 +290,7 @@ g.Shapes.DataStore = graphiti.SetFigure.extend({
   }
 });
 
-g.Shapes.Interactor = graphiti.shape.basic.Rectangle.extend({
+g.Shapes.Interactor = draw2d.shape.basic.Rectangle.extend({
   NAME: "g.Shapes.Interactor",
 
   init: function(width, height) {   
@@ -303,16 +303,16 @@ g.Shapes.Interactor = graphiti.shape.basic.Rectangle.extend({
     this.setCssClass("interactor");
 
     // Label
-    //this.label = new graphiti.shape.basic.Label("New External Interactor");
-    this.label = new graphiti.shape.basic.WrappingLabel("New External Interactor");
+    //this.label = new draw2d.shape.basic.Label("New External Interactor");
+    this.label = new draw2d.shape.basic.WrappingLabel("New External Interactor");
     this.label.setFontColor("#339BB9");
     this.label.setStroke(0);
-    this.addFigure(this.label, new graphiti.layout.locator.CenterLocator(this));        
+    this.addFigure(this.label, new draw2d.layout.locator.CenterLocator(this));        
 
-    this.createPort("hybrid", new graphiti.layout.locator.TopLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.RightLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.LeftLocator(this));
-    this.createPort("hybrid", new graphiti.layout.locator.BottomLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.TopLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.RightLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.LeftLocator(this));
+    this.createPort("hybrid", new draw2d.layout.locator.BottomLocator(this));
   },
 
   onDoubleClick: function() {

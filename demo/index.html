@@ -199,13 +199,26 @@
 <script src="../lib/mustache.js"></script>
 
 <!-- Duco lib -->
-<script src="../graphiti/src/graphiti.js"></script>
-<script src="../graphiti/src/Canvas.js"></script>
-<script src="../graphiti/src/Figure.js"></script>
+<script src="../graphiti/src/draw2d.js"></script>
 
+<!-- Utils -->
 <script src="../graphiti/src/util/Color.js"></script>
 <script src="../graphiti/src/util/UUID.js"></script>
 <script src="../graphiti/src/util/ArrayList.js"></script>
+
+<!-- Policies -->
+<script src="../graphiti/src/policy/EditPolicy.js"></script>
+<script src="../graphiti/src/policy/canvas/CanvasPolicy.js"></script>
+<script src="../graphiti/src/policy/canvas/SelectionPolicy.js"></script>
+<script src="../graphiti/src/policy/canvas/SingleSelectionPolicy.js"></script>
+<script src="../graphiti/src/policy/canvas/BoundingboxSelectionPolicy.js"></script>
+<script src="../graphiti/src/policy/canvas/DecorationPolicy.js"></script>
+<script src="../graphiti/src/policy/canvas/FadeoutDecorationPolicy.js"></script>
+<script src="../graphiti/src/policy/canvas/SnapToEditPolicy.js"></script>
+
+<script src="../graphiti/src/Selection.js"></script>
+<script src="../graphiti/src/Canvas.js"></script>
+<script src="../graphiti/src/Figure.js"></script>
 
 <script src="../graphiti/src/geo/Point.js"></script>
 <script src="../graphiti/src/geo/Rectangle.js"></script>
@@ -223,7 +236,6 @@
 <script src="../graphiti/src/InputPort.js"></script>
 <script src="../graphiti/src/OutputPort.js"></script>
 <script src="../graphiti/src/HybridPort.js"></script>
-<script src="../graphiti/src/ConnectionAnchor.js"></script>
 
 <script src="../graphiti/src/SetFigure.js"></script> <!-- depends: shape.basic.Rectangle-->
 <script src="../graphiti/src/ResizeHandle.js"></script> <!-- depends on shape.basic.Rectangle -->

@@ -1,7 +1,7 @@
 
-graphiti.shape.basic.WrappingLabel= graphiti.shape.basic.Label.extend({
+draw2d.shape.basic.WrappingLabel= draw2d.shape.basic.Label.extend({
 
-    NAME : "graphiti.shape.basic.WrappingLabel",
+    NAME : "draw2d.shape.basic.WrappingLabel",
 
     /**
      * @method
