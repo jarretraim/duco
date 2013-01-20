@@ -32,8 +32,6 @@ graphiti.layout.locator.TopLocator = graphiti.layout.locator.Locator.extend({
     
        var targetBoundingBox = target.getBoundingBox();
        target.setPosition(boundingBox.w / 2, -(targetBoundingBox.h+2));
-
-       console.log("TOP Position: " + target.x + ", " + target.y);
     }
 
 });
@@ -76,8 +74,6 @@ graphiti.layout.locator.BottomLocator= graphiti.layout.locator.Locator.extend({
     
        var targetBoundingBox = target.getBoundingBox();
        target.setPosition(boundingBox.w/2, 2 + boundingBox.h + targetBoundingBox.h);
-
-       console.log("BOTTOM Position: " + target.x + ", " + target.y);
     }
 });
 
@@ -132,8 +128,6 @@ graphiti.layout.locator.LeftLocator = graphiti.layout.locator.Locator.extend({
 
        var targetBoundingBox = target.getBoundingBox();
        target.setPosition(-targetBoundingBox.w-2, boundingBox.h/2);
-
-       console.log("LEFT Position: " + target.x + ", " + target.y);
     }
 });
 
@@ -189,7 +183,5 @@ graphiti.layout.locator.RightLocator = graphiti.layout.locator.Locator.extend({
        
        var targetBoundingBox = target.getBoundingBox();
        target.setPosition(boundingBox.w + 12, boundingBox.h/2);
-
-       console.log("RIGHT Position: " + target.x + ", " + target.y);
     }
 });
