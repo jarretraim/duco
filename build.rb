@@ -47,6 +47,8 @@ files = [
   "graphiti/src/command/CommandAdd.js",
   "graphiti/src/io/Writer.js",
   "graphiti/src/io/json/Writer.js",
+  "graphiti/src/io/Reader.js",
+  "graphiti/src/io/json/Reader.js",
   "src/locators.js",
   "graphiti/src/layout/locator/CenterLocator.js",
   "graphiti/src/ui/LabelEditor.js",
