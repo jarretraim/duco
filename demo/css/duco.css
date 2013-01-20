@@ -8,6 +8,7 @@
   background-color: #EEE;
   border-radius: 6px;
   min-height: 750px;
+  margin-left: 290px;
 }
 
 .toolbar_icon {
@@ -16,10 +17,17 @@
   margin: 2px;
 }
 
-.port {  
+.diagram-element {
+  stroke: #339BB9;
+  stroke-width: 1;
+  fill: #DDF4FB;
 }
 
-.process {  
+.diagram-label {
+  color: #339BB9;
+}
+
+.port {  
 }
 
 .connector {
@@ -29,4 +37,12 @@
 #json {
   height: 350px;
   width: 95%;
+}
+
+.sidebar-nav-fixed {
+    padding: 9px 0;
+    position:fixed;
+    left:20px;
+    top:60px;
+    width:250px;
 }
