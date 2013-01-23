@@ -27,7 +27,10 @@
   color: #339BB9;
 }
 
-.port {  
+.port { 
+  fill: #DDF4FB;
+  stroke: #339BB9; 
+  stroke-width: 1;
 }
 
 .connector {

@@ -115,6 +115,32 @@ g.View = draw2d.Canvas.extend({
 });
 
 g.Shapes = {};
+g.Shapes.Common = {};
+
+g.Shapes.Common.onDoubleClick = function() {
+  $('body').trigger('g.showProperties', this.getPersistentAttributes());
+};
+
+g.Shapes.Common.setProperties = function(defaultProperties) {
+  var propertyTemplates = defaultProperties.byShapeName(this.getShapeName());
+  var properties = [];
+
+  _.each(propertyTemplates, function(property) {
+    var prop = {};
+    prop['id'] = property.id;
+    prop['value'] = property.default_value;
+    properties.push(prop);
+  });
+
+  this.properties = properties;
+}
+
+g.Shapes.Common.getPersistentAttributes = function() {
+  var s = this._super();
+  s["properties"] = this.properties;
+  return s;
+}
+
 g.Shapes.Process = draw2d.shape.basic.Circle.extend({
   NAME: "g.Shapes.Process",
 
@@ -138,29 +164,13 @@ g.Shapes.Process = draw2d.shape.basic.Circle.extend({
     this.createPort("hybrid", new draw2d.layout.locator.BottomLocator(this));
   },
 
-  onDoubleClick: function() {
-    $('body').trigger('g.showProperties', this.getPersistentAttributes());
+  getShapeName: function() {
+    return "process";
   },
 
-  setProperties: function(defaultProperties) {
-    var propertyTemplates = defaultProperties.byShapeName("process");
-    var properties = [];
-
-    _.each(propertyTemplates, function(property) {
-      var prop = {};
-      prop['id'] = property.id;
-      prop['value'] = property.default_value;
-      properties.push(prop);
-    });
-
-    this.properties = properties;
-  },
-
-  getPersistentAttributes : function() {
-    var s = this._super();
-    s["properties"] = this.properties;
-    return s;
-  }
+  onDoubleClick: g.Shapes.Common.onDoubleClick,
+  setProperties: g.Shapes.Common.setProperties,
+  getPersistentAttributes: g.Shapes.Common.getPersistentAttributes
 });
 
 g.Shapes.ComplexProcess = draw2d.shape.basic.Circle.extend({
@@ -193,29 +203,13 @@ g.Shapes.ComplexProcess = draw2d.shape.basic.Circle.extend({
     this.createPort("hybrid", new draw2d.layout.locator.BottomLocator(this));
   },
 
-  onDoubleClick: function() {
-    $('body').trigger('g.showProperties', this.getPersistentAttributes());
+  getShapeName: function() {
+    return "complex-process";
   },
 
-  setProperties: function(defaultProperties) {
-    var propertyTemplates = defaultProperties.byShapeName("complex-process");
-    var properties = [];
-
-    _.each(propertyTemplates, function(property) {
-      var prop = {};
-      prop['id'] = property.id;
-      prop['value'] = property.default_value;
-      properties.push(prop);
-    });
-
-    this.properties = properties;
-  },
-
-  getPersistentAttributes : function() {
-    var s = this._super();
-    s["properties"] = this.properties;
-    return s;
-  }
+  onDoubleClick: g.Shapes.Common.onDoubleClick,
+  setProperties: g.Shapes.Common.setProperties,
+  getPersistentAttributes: g.Shapes.Common.getPersistentAttributes
 });
 
 g.Shapes.DataStore = draw2d.SetFigure.extend({
@@ -241,9 +235,13 @@ g.Shapes.DataStore = draw2d.SetFigure.extend({
     this.createPort("hybrid", new draw2d.layout.locator.BottomLocator(this));
   },
 
-  onDoubleClick: function() {
-    $('body').trigger('g.showProperties', this.getPersistentAttributes());
+  getShapeName: function() {
+    return "data-store";
   },
+
+  onDoubleClick: g.Shapes.Common.onDoubleClick,
+  setProperties: g.Shapes.Common.setProperties,
+  getPersistentAttributes: g.Shapes.Common.getPersistentAttributes,
 
   repaint : function(attributes)
   {
@@ -256,7 +254,6 @@ g.Shapes.DataStore = draw2d.SetFigure.extend({
     }
     
     // redirect the bgColor to the inner set and not to the outer container
-    //
     attributes.fill="none";
     if(this.svgNodes !== null) {
       this.svgNodes.attr({fill: this.bgColor.getHashStyle(), stroke:"#339BB9"});
@@ -267,27 +264,7 @@ g.Shapes.DataStore = draw2d.SetFigure.extend({
 
   createSet : function() {
     return this.canvas.paper.path("M15.499,23.438c-3.846,0-7.708-0.987-9.534-3.117c-0.054,0.236-0.09,0.48-0.09,0.737v3.877c0,3.435,4.988,4.998,9.625,4.998s9.625-1.563,9.625-4.998v-3.877c0-0.258-0.036-0.501-0.09-0.737C23.209,22.451,19.347,23.438,15.499,23.438zM15.499,15.943c-3.846,0-7.708-0.987-9.533-3.117c-0.054,0.236-0.091,0.479-0.091,0.736v3.877c0,3.435,4.988,4.998,9.625,4.998s9.625-1.563,9.625-4.998v-3.877c0-0.257-0.036-0.501-0.09-0.737C23.209,14.956,19.347,15.943,15.499,15.943zM15.5,1.066c-4.637,0-9.625,1.565-9.625,5.001v3.876c0,3.435,4.988,4.998,9.625,4.998s9.625-1.563,9.625-4.998V6.067C25.125,2.632,20.137,1.066,15.5,1.066zM15.5,9.066c-4.211,0-7.625-1.343-7.625-3c0-1.656,3.414-3,7.625-3s7.625,1.344,7.625,3C23.125,7.724,19.711,9.066,15.5,9.066z");
-  },
-
-  setProperties: function(defaultProperties) {
-    var propertyTemplates = defaultProperties.byShapeName("data-store");
-    var properties = [];
-
-    _.each(propertyTemplates, function(property) {
-      var prop = {};
-      prop['id'] = property.id;
-      prop['value'] = property.default_value;
-      properties.push(prop);
-    });
-
-    this.properties = properties;
-  },
-
-  getPersistentAttributes : function() {
-    var s = this._super();
-    s["properties"] = this.properties;
-    return s;
-  }
+  },  
 });
 
 g.Shapes.Interactor = draw2d.shape.basic.Rectangle.extend({
@@ -303,7 +280,6 @@ g.Shapes.Interactor = draw2d.shape.basic.Rectangle.extend({
     this.setCssClass("interactor");
 
     // Label
-    //this.label = new draw2d.shape.basic.Label("New External Interactor");
     this.label = new draw2d.shape.basic.WrappingLabel("New External Interactor");
     this.label.setFontColor("#339BB9");
     this.label.setStroke(0);
@@ -315,34 +291,18 @@ g.Shapes.Interactor = draw2d.shape.basic.Rectangle.extend({
     this.createPort("hybrid", new draw2d.layout.locator.BottomLocator(this));
   },
 
-  onDoubleClick: function() {
-    $('body').trigger('g.showProperties', this.getPersistentAttributes());
+  getShapeName: function() {
+    return "interactor";
   },
+
+  onDoubleClick: g.Shapes.Common.onDoubleClick,
+  setProperties: g.Shapes.Common.setProperties,
+  getPersistentAttributes: g.Shapes.Common.getPersistentAttributes,
 
   isStrechable:function()
   {
     return false;
-  },
-
-  setProperties: function(defaultProperties) {
-    var propertyTemplates = defaultProperties.byShapeName("interactor");
-    var properties = [];
-
-    _.each(propertyTemplates, function(property) {
-      var prop = {};
-      prop['id'] = property.id;
-      prop['value'] = property.default_value;
-      properties.push(prop);
-    });
-
-    this.properties = properties;
-  },
-
-  getPersistentAttributes : function() {
-    var s = this._super();
-    s["properties"] = this.properties;
-    return s;
-  }
+  }  
 });
 
 g.Properties = Class.extend({
