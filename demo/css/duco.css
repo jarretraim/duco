@@ -17,25 +17,42 @@
   margin: 2px;
 }
 
-.diagram-element {
-  stroke: #339BB9;
-  stroke-width: 1;
-  fill: #DDF4FB;
-}
 
-.diagram-label {
-  color: #339BB9;
-}
-
+/** SHAPES **/
 .port { 
   fill: #DDF4FB;
   stroke: #339BB9; 
   stroke-width: 1;
 }
 
+.process {
+  stroke: #339BB9;
+  stroke-width: 1;
+  fill: #DDF4FB;
+}
+
+.interactor {
+  stroke: #339BB9;
+  stroke-width: 1;
+  fill: #DDF4FB;
+}
+
+.data-store {
+  stroke-width: 1;
+}
+
 .connector {
   stroke: #4cbf2f;
 }
+
+.complex-process {
+  stroke: #339BB9;
+  stroke-width: 1;
+  fill: #DDF4FB;
+}
+
+
+
 
 #json {
   height: 350px;

@@ -3,6 +3,14 @@ draw2d.shape.basic.WrappingLabel= draw2d.shape.basic.Label.extend({
 
     NAME : "draw2d.shape.basic.WrappingLabel",
 
+    init : function(text)
+    {
+      this._super(text);
+      this.setCssClass("shape-label");
+      this.setFontColor("#545454");
+      this.setStroke(0);
+    },
+
     /**
      * @method
      * Trigger the repaint of the element and transport all style properties to the visual representation.<br>

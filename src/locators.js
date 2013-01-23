@@ -185,3 +185,37 @@ draw2d.layout.locator.RightLocator = draw2d.layout.locator.Locator.extend({
        target.setPosition(boundingBox.w + 12, boundingBox.h/2);
     }
 });
+
+draw2d.layout.locator.PaddedTopLeftLocator = draw2d.layout.locator.Locator.extend({
+    NAME : "draw2d.layout.locator.PaddedTopLeftLocator",
+    
+    /**
+     * @constructor
+     * Constructs a locator with associated parent.
+     * 
+     * @param {draw2d.Figure} parent the parent associated with the locator
+     */
+    init: function(parent)
+    {
+      this._super(parent);
+    },
+    
+    
+    /**
+     * @method
+     * Relocates the given Figure.
+     *
+     * @param {Number} index child index of the target
+     * @param {draw2d.Figure} target The figure to relocate
+     **/
+    relocate:function(index, target)
+    {
+       var parent = this.getParent();
+       var boundingBox = parent.getBoundingBox();
+       var topRight = boundingBox.getTopRight();
+       
+       var targetBoundingBox = target.getBoundingBox();
+       target.setPosition(5, 5);
+    }
+});
+
