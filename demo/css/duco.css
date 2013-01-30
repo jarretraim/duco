@@ -38,7 +38,9 @@
 }
 
 .data-store {
+  stroke: #339BB9;
   stroke-width: 1;
+  fill: #DDF4FB;
 }
 
 .connector {
