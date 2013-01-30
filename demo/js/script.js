@@ -59,7 +59,7 @@ g.View = draw2d.Canvas.extend({
     this._super(id);
     this.setScrollArea("#" + id);
     this.currentDropConnection = null;
-    //this.setSnapToGrid(true);
+    this.installEditPolicy(new draw2d.policy.canvas.SnapToGridEditPolicy());
     this.properties = properties;
     this.shapes = [];
   },
