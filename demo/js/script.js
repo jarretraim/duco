@@ -44,12 +44,39 @@ g.Application = Class.extend({
   },
 
   saveProperties: function(shapeId, properties) {    
-    var shape = this.view.getShape(shapeId);
+        var shape = this.view.getFigure(shapeId);
+        var namePropertyTemplate = this.properties.byPropertyName('Name');
+
+        var namePropertyValue = _.find(properties, function(property) {
+            if (property.id == namePropertyTemplate.id) {
+                shape.setLabelText(property.value);
+            }
+        });
+
     shape.properties = properties;
   },
 
   reportError: function(data, description) {
     console.log('ERROR: ' + description + ' -> ' + JSON.stringify(data));
+    },
+
+    load: function(diagramJson) {
+        var reader = new draw2d.io.json.Reader();
+        reader.unmarshal(this.view, diagramJson);
+    },
+
+    save:function (diagramId) {
+        var json = this.getJson();
+        var uri = '/diagrams/' + DIAGRAM_ID;
+
+        $.ajax({
+            type: "PUT",
+            url: uri,
+            data: json,
+            contentType: "application/json"
+        }).done(function(msg) {
+           console.log('Saved');
+        });
   }
 });
 
@@ -275,7 +302,9 @@ g.Properties = Class.extend({
       url: '/properties.json',
       dataType: 'json',
       context: this,
-      success: function(data) { this.properties = data; },
+            success:function (data) {
+                this.properties = data;
+            },
       error: app.reportError,
       data: {},
       async: false
@@ -286,7 +315,9 @@ g.Properties = Class.extend({
       url: '/shapes.json',
       dataType: 'json',
       context: this,
-      success: function(data) { this.shapes = data; },
+            success:function (data) {
+                this.shapes = data;
+            },
       error: app.reportError,
       data: {},
       async: false
@@ -294,14 +325,20 @@ g.Properties = Class.extend({
   },
 
   byId: function(id) {
-    var property = _.find(this.properties, function(p) {
+        return _.find(this.properties, function (p) {
       if (p.id == id) {
         return p;
       }
     });
-
-    return property;
   },
+
+    byPropertyName:function(propertyName) {
+        return _.find(this.properties, function(property) {
+            if (property.name == propertyName) {
+                return property;
+            }
+        });
+    },
 
   byShapeName: function(shapeName) {
     var shape = _.find(this.shapes, function(shape) {
@@ -310,13 +347,11 @@ g.Properties = Class.extend({
       }
     });
 
-    var properties = _.filter(this.properties, function(property) {
-      if (property.shape_id == shape.id) {
+        return _.filter(this.properties, function (property) {
+            if (property.shape_id == shape.id || property.shape_id == null) {
         return property;
       }
     });
-
-    return properties;
   },
 
   showPropertyEditModal: function(shapeData, modal) {
@@ -336,8 +371,7 @@ g.Properties = Class.extend({
 
   renderTemplate: function(propertyTemplate, property) {
     var template = null;
-    switch (propertyTemplate.property_type.name)
-    {
+        switch (propertyTemplate.property_type.name) {
       case 'String':
         template = $('#text-field').html();
         break;
@@ -360,7 +394,6 @@ g.Properties = Class.extend({
     return Mustache.to_html(template, merged);
   }
 });
-
 
 
 $().ready(function() {
@@ -415,8 +448,7 @@ $().ready(function() {
     var inputs = $(this).find('input');
     var selects = $(this).find('select');
 
-    var props = _.union(inputs.toArray(), selects.toArray());
-    
+    var props = _.union(inputs.toArray(), selects.toArray());    
     var properties = [];
     
     _.each(props, function(input) {
