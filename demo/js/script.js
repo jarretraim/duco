@@ -98,13 +98,14 @@ g.View = draw2d.Canvas.extend({
    * draw2d use the jQuery draggable/droppable lib. Please inspect
    * http://jqueryui.com/demos/droppable/ for further information.
    *
-   * @param {HTMLElement} droppedDomNode The dragged DOM element.
+     * @param {HTMLElement} droppedDomNode The dragged DOM element.
    * @param {Number} x the x coordinate of the drag
    * @param {Number} y the y coordinate of the drag
    *
    * @template
    **/
-  onDrag: function(droppedDomNode, x, y) {},
+    onDrag:function (droppedDomNode, x, y) {
+    },
 
   getShape: function(shapeId) {
     var shape = _.find(this.shapes, function(shape) {
@@ -168,6 +169,23 @@ g.Shapes.Common.getPersistentAttributes = function() {
   return s;
 }
 
+g.Shapes.Common.setPersistentAttributes = function(attributes) {
+    this._super(attributes);
+
+    var label =  _.find(attributes.properties, function(property) {
+            if (property.id == g.Properties.NameProperty.id) {
+                return property;
+            }
+        });
+
+    this.setLabelText(label.value);
+    this.properties = attributes.properties;
+}
+
+g.Shapes.Common.setLabelText = function(text) {
+    this.label.setText(text);
+}
+
 g.Shapes.Process = draw2d.shape.basic.Circle.extend({
   NAME: "g.Shapes.Process",
 
@@ -190,9 +208,23 @@ g.Shapes.Process = draw2d.shape.basic.Circle.extend({
     return "process";
   },
 
+  createShapeElement: function() {
+    var e = this._super();
+
+    var set = this.canvas.paper.set();
+    set.push(e);
+
+    this.icon = this.canvas.paper.image('img/pci.png', 0, 0, 15, 15);
+    set.push(this.icon);
+
+    return set;
+  },
+
   onDoubleClick: g.Shapes.Common.onDoubleClick,
   setProperties: g.Shapes.Common.setProperties,
-  getPersistentAttributes: g.Shapes.Common.getPersistentAttributes
+  setLabelText: g.Shapes.Common.setLabelText,
+  setPersistentAttributes: g.Shapes.Common.setPersistentAttributes,
+  getPersistentAttributes: g.Shapes.Common.getPersistentAttributes  
 });
 
 g.Shapes.ComplexProcess = draw2d.shape.basic.Circle.extend({
@@ -225,6 +257,8 @@ g.Shapes.ComplexProcess = draw2d.shape.basic.Circle.extend({
 
   onDoubleClick: g.Shapes.Common.onDoubleClick,
   setProperties: g.Shapes.Common.setProperties,
+  setLabelText: g.Shapes.Common.setLabelText,
+  setPersistentAttributes: g.Shapes.Common.setPersistentAttributes,
   getPersistentAttributes: g.Shapes.Common.getPersistentAttributes
 });
 
@@ -257,6 +291,8 @@ g.Shapes.DataStore = draw2d.shape.icon.Db.extend({
 
   onDoubleClick: g.Shapes.Common.onDoubleClick,
   setProperties: g.Shapes.Common.setProperties,
+  setLabelText: g.Shapes.Common.setLabelText,
+  setPersistentAttributes: g.Shapes.Common.setPersistentAttributes,
   getPersistentAttributes: g.Shapes.Common.getPersistentAttributes
 });
 
@@ -284,6 +320,8 @@ g.Shapes.Interactor = draw2d.shape.basic.Rectangle.extend({
 
   onDoubleClick: g.Shapes.Common.onDoubleClick,
   setProperties: g.Shapes.Common.setProperties,
+  setLabelText: g.Shapes.Common.setLabelText,
+  setPersistentAttributes: g.Shapes.Common.setPersistentAttributes,
   getPersistentAttributes: g.Shapes.Common.getPersistentAttributes,
 
   isStrechable:function()
