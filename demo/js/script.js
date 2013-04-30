@@ -11,7 +11,7 @@ g.Application = Class.extend({
    */
   init: function() {
     this.properties = new g.Properties(this);
-    this.view = new g.View("canvas", this.properties);  
+    this.view = new g.View("canvas", this.properties);      
   },
 
   undo: function() {
@@ -30,8 +30,7 @@ g.Application = Class.extend({
     this.view.setZoom(1.0);
   },
 
-  toggleSnapToGrid: function() {
-    this.view.setSnapToGrid(!this.view.getSnapToGrid());
+  toggleSnapToGrid: function() {    
   },
 
   getJson: function() {
@@ -86,7 +85,8 @@ g.View = draw2d.Canvas.extend({
     this._super(id);
     this.setScrollArea("#" + id);
     this.currentDropConnection = null;
-    this.installEditPolicy(new draw2d.policy.canvas.SnapToGridEditPolicy());
+    this.installEditPolicy(new draw2d.policy.canvas.SnapToGeometryEditPolicy());
+    this.snapToGrid = true;
     this.properties = properties;
     this.shapes = [];
   },
