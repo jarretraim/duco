@@ -94,5 +94,6 @@ end
 compress = IO.read('diagram.js')
 compress.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '')
 compress.encode!('UTF-8', 'UTF-16')
+IO.write('diagram.js', compress)
 IO.write('diagram.min.js', Uglifier.new().compile(compress) )
 
