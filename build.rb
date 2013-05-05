@@ -54,6 +54,7 @@ files = [
 "graphiti/src/layout/connection/ConnectionRouter.js",
 "graphiti/src/layout/connection/ManhattanConnectionRouter.js",
 "graphiti/src/layout/connection/ManhattanBridgedConnectionRouter.js",
+"graphiti/src/layout/connection/SplineConnectionRouter.js",
 "graphiti/src/Connection.js",
 "graphiti/src/command/CommandType.js",
 "graphiti/src/command/Command.js",
@@ -74,7 +75,10 @@ files = [
 "src/locators.js",
 "graphiti/src/layout/locator/CenterLocator.js",
 "graphiti/src/shape/icon/Icon.js",
-"graphiti/src/shape/icon/Db.js"
+"graphiti/src/shape/icon/Db.js",
+"graphiti/src/Connection.js",
+"graphiti/src/decoration/connection/Decorator.js",
+"graphiti/src/decoration/connection/ArrowDecorator.js"
 ]
 
 
