@@ -9,6 +9,12 @@ draw2d.shape.basic.WrappingLabel= draw2d.shape.basic.Label.extend({
       this.setCssClass("shape-label");
       this.setFontColor("#545454");
       this.setStroke(0);
+      
+      this.ruler = $('#ruler');
+      if (this.ruler.length != 1) {
+        this.ruler = $('<span id="ruler" style="visibility: hidden; white-space: nowrap"></span>');
+        $('body').append(this.ruler);
+      }
     },
 
     /**
@@ -21,6 +27,8 @@ draw2d.shape.basic.WrappingLabel= draw2d.shape.basic.Label.extend({
     repaint: function(attributes) {
 
       if (this.text && this.getParent()) {
+        this.text = this.text.replace(/(\r\n|\n|\r)/gm,"");
+
         var PADDING = 10;
         var textWidth = this.visualSize(this.text).width;
 
@@ -45,17 +53,18 @@ draw2d.shape.basic.WrappingLabel= draw2d.shape.basic.Label.extend({
         }
       }
 
+      this.width = this.getMinWidth();
+      this.height = this.getMinHeight();
+
       this._super(attributes);
     },
 
     visualSize: function(text) {
-      var ruler = $('<span id="ruler" style="visibility: hidden; white-space: nowrap"></span>');
-      $('body').append(ruler);
-      ruler.text(text);
+      this.ruler.text(text);
 
       return {
-        'width': ruler.width(),
-        'height': ruler.height()
+        'width': this.ruler.width(),
+        'height': this.ruler.height()
       }
     }
 });
