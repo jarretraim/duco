@@ -78,7 +78,7 @@ files = [
 "graphiti/src/shape/icon/Db.js",
 "graphiti/src/Connection.js",
 "graphiti/src/decoration/connection/Decorator.js",
-"graphiti/src/decoration/connection/ArrowDecorator.js"
+"src/decorators.js"
 ]
 
 

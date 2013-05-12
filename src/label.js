@@ -17,6 +17,12 @@ draw2d.shape.basic.WrappingLabel= draw2d.shape.basic.Label.extend({
       }
     },
 
+    /**
+     *  Overrided doubleclick. The default behavior of a label is to pop some 
+     *  kind of editor on double click. This passes the event to the parent object
+     *  so that the properties windows will fire correctly.
+     *
+     */
     onDoubleClick: function() {
         this.parent.onDoubleClick();
     },

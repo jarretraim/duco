@@ -89,6 +89,13 @@ g.View = draw2d.Canvas.extend({
     this.snapToGrid = true;
     this.properties = properties;
     this.shapes = [];
+
+    draw2d.Connection.createConnection = function(sourcePort, targetPort) {
+      var conn = new draw2d.Connection();
+      conn.setSourceDecorator(new draw2d.decoration.connection.AppModelArrowDecorator());
+      conn.setTargetDecorator(new draw2d.decoration.connection.AppModelArrowDecorator());
+      return conn;
+    }
   },
 
   /**
@@ -107,15 +114,15 @@ g.View = draw2d.Canvas.extend({
     onDrag:function (droppedDomNode, x, y) {
     },
 
-  getShape: function(shapeId) {
-    var shape = _.find(this.shapes, function(shape) {
-      if (shape.id == shapeId) {
-        return shape;
-      }
-    });
+    getShape: function(shapeId) {
+      var shape = _.find(this.shapes, function(shape) {
+        if (shape.id == shapeId) {
+          return shape;
+        }
+      });
 
-    return shape;
-  },
+      return shape;
+    },
 
   /**
    * @method
