@@ -17,6 +17,11 @@ draw2d.shape.basic.WrappingLabel= draw2d.shape.basic.Label.extend({
       }
     },
 
+    onDoubleClick: function() {
+        this.parent.onDoubleClick();
+    },
+
+
     /**
      * @method
      * Trigger the repaint of the element and transport all style properties to the visual representation.<br>
