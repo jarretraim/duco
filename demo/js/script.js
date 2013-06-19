@@ -215,18 +215,6 @@ g.Shapes.Process = draw2d.shape.basic.Circle.extend({
     return "process";
   },
 
-  createShapeElement: function() {
-    var e = this._super();
-
-    var set = this.canvas.paper.set();
-    set.push(e);
-
-    this.icon = this.canvas.paper.image('img/pci.png', 0, 0, 15, 15);
-    set.push(this.icon);
-
-    return set;
-  },
-
   onDoubleClick: g.Shapes.Common.onDoubleClick,
   setProperties: g.Shapes.Common.setProperties,
   setLabelText: g.Shapes.Common.setLabelText,
@@ -279,8 +267,8 @@ g.Shapes.DataStore = draw2d.shape.icon.Db.extend({
 
     // This shouldn't be necessary, but setting the CSS class doesn't propagate
     // and I can't figure out why.
-    this.setBackgroundColor("#DDF4FB");
-    this.setColor("#339BB9");
+    //this.setBackgroundColor("#DDF4FB");
+    //this.setColor("#339BB9");
 
     // Label
     this.label = new draw2d.shape.basic.WrappingLabel("New Data Store");
