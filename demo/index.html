@@ -223,9 +223,9 @@
 <script src="../graphiti/src/policy/figure/RectangleSelectionFeedbackPolicy.js"></script>
 <script src="../graphiti/src/policy/figure/SlimSelectionFeedbackPolicy.js"></script>
 <script src="../graphiti/src/policy/figure/AntSelectionFeedbackPolicy.js"></script>
-<script src="../graphiti/src/policy/figure/LineSelectionFeedbackPolicy.js"></script>
 <script src="../graphiti/src/policy/port/PortFeedbackPolicy.js"></script>
 <script src="../graphiti/src/policy/port/IntrusivePortsFeedbackPolicy.js"></script>
+<script src="../graphiti/src/policy/line/LineSelectionFeedbackPolicy.js"></script>
 
 <script src="../graphiti/src/Selection.js"></script>
 <script src="../graphiti/src/Canvas.js"></script>
@@ -241,7 +241,9 @@
 <script src="../graphiti/src/shape/basic/Oval.js"></script>
 <script src="../graphiti/src/shape/basic/Circle.js"></script>
 <script src="../graphiti/src/shape/basic/Rectangle.js"></script>
-<script src="../graphiti/src/shape/basic/PolyLine.js"></script>
+<script src="../graphiti/src/shape/basic/LineResizeHandle.js"></script>
+<script src="../graphiti/src/shape/basic/LineStartResizeHandle.js"></script>
+<script src="../graphiti/src/shape/basic/LineEndResizeHandle.js"></script>
 
 <script src="../graphiti/src/layout/locator/Locator.js"></script>
 <script src="../graphiti/src/layout/locator/ConnectionLocator.js"></script>
@@ -260,15 +262,13 @@
 <script src="../graphiti/src/shape/basic/Label.js"></script> <!-- depends: SetFigure -->
 <script src="../src/label.js"></script> <!-- depends: Label -->
 
-<script src="../graphiti/src/LineResizeHandle.js"></script>
-<script src="../graphiti/src/LineStartResizeHandle.js"></script>
-<script src="../graphiti/src/LineEndResizeHandle.js"></script>
-
 <script src="../graphiti/src/layout/connection/ConnectionRouter.js"></script>
 <script src="../graphiti/src/layout/connection/ManhattanConnectionRouter.js"></script>
 <script src="../graphiti/src/layout/connection/ManhattanBridgedConnectionRouter.js"></script>
 <script src="../graphiti/src/layout/connection/SplineConnectionRouter.js"></script>
-<script src="../graphiti/src/Connection.js"></script> <!-- depends: layout.connection -->
+<script src="../graphiti/src/shape/basic/PolyLine.js"></script> <!-- depends: ManhattenConnectionRouter -->
+<script src="../graphiti/src/Connection.js"></script> <!-- depends: layout.connection, PolyLine -->
+
 
 <script src="../graphiti/src/decoration/connection/Decorator.js"></script>
 <script src="../src/decorators.js"></script>
