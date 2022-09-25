@@ -1,3 +1,3 @@
 source 'https://rubygems.org'
 
-gem 'uglifier'
+gem 'uglifier', '>= 2.7.2'

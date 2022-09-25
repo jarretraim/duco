@@ -1,14 +1,15 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    execjs (2.0.1)
-    multi_json (1.7.9)
-    uglifier (2.2.1)
-      execjs (>= 0.3.0)
-      multi_json (~> 1.0, >= 1.0.2)
+    execjs (2.8.1)
+    uglifier (4.2.0)
+      execjs (>= 0.3.0, < 3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  uglifier
+  uglifier (>= 2.7.2)
+
+BUNDLED WITH
+   2.1.4
